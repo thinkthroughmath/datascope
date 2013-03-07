@@ -4,12 +4,21 @@ require 'json'
 require 'haml'
 DB = Sequel.connect ENV['DATABASE_URL']
 
+if ENV['TARGET_DB']
+  TARGET_DB_NAMES = ["master"]
+else
+  TARGET_DB_NAMES = ENV.select { |k, v|
+    k.match(/^HEROKU_POSTGRESQL_/)
+  }.keys
+end
+
 class Datascope < Sinatra::Application
   get '/' do
     haml :index
   end
 
   get '/metric' do
+    database = params[:database]
     selector =  params[:selector]
     start = DateTime.parse params[:start]
     stop = DateTime.parse params[:stop]
@@ -17,6 +26,10 @@ class Datascope < Sinatra::Application
 
     results = DB[:stats].select(:data).filter(created_at: (start..stop)).all
     parsed = results.map{|row| JSON.parse(row[:data])}
+
+    if database
+      parsed = parsed.select{ |row| row["name"] == database }
+    end
 
     if selector == 'query_1'
       values = values_by_regex parsed, /with packed/i, :ms
