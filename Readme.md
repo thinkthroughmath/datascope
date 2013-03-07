@@ -5,7 +5,9 @@ Visability into your Postgres 9.2 database via [pg_stat_statements](http://www.p
 
 Check out a [live example](https://datascope.herokuapp.com)
 
-## Setup - local
+## Setup - all local
+
+This section is about running datascope locally and monitoring a local database.
 
 * run `bundle`
 * create a local postgres db and name it, e.g., 'datascope'
@@ -44,3 +46,19 @@ I had issues with the shared memory settings -- which manifested themselves as t
 (note that this is different than what's recommended in [our setup instructions](https://github.com/thinkthroughmath/apangea/wiki/Mac-Setup), i'm not really sure of the implications).
 
 You should have a postgres server running now, so you're ready to enable pg_stat_statements in the other place. Run `psql`, connect to each database you would like to monitor, and run `CREATE extension pg_stat_statements;` as explained in [Craig Kerstiens' post](http://www.craigkerstiens.com/2013/01/10/more-on-postgres-performance/). If this has completed correctly, you should now have a pg_stat_statements table in this database.
+
+## Setup - local datascope, remote target db
+
+If you have a heroku app whose databases you would like to monitor, you can grab the config values by using the [heroku-config plugin](https://github.com/ddollar/heroku-config). Install that, and then run `heroku config:pull -a your-app-name`.
+
+This will put all your config vars into .env. There are ways to have heroku config either overwrite this file or not; look at the readme.
+
+UNDER NO CIRCUMSTANCES SHOULD YOU COMMIT THE .env FILE ANYWHERE!!!
+
+We're only going to use HEROKU_POSTGRESQL_* vars; feel free to delete everything else.
+
+Make sure you've kept these values in your .env though (remove TARGET_URL if you want to use the HEROKU_POSTGRESQL_* vars):
+
+    RACK_ENV=development
+    DATABASE_URL=postgres://localhost/datascope
+
