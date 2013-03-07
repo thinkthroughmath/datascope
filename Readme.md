@@ -10,12 +10,14 @@ Check out a [live example](https://datascope.herokuapp.com)
 * run `bundle`
 * create a local postgres db and name it, e.g., 'datascope'
 * run `psql -d datascope -f schema.sql`
-* If you want to monitor a local database named 'mystuff', in one terminal run:
-`DATABASE_URL=postgres://localhost/datascope TARGET_DB=postgres://localhost/mystuff bundle exec ruby worker.rb`
-and in another terminal run:
- `DATABASE_URL=postgres://localhost/datascope TARGET_DB=postgres://localhost/mystuff rackup`
+* If you want to monitor a local database named 'mystuff', create an .env file that contains:
 
-* Then you should be able to go to http://localhost:9292 and see stats.
+    RACK_ENV=development
+    DATABASE_URL=postgres://localhost/datascope
+    TARGET_DB=postgres://localhost/mystuff
+
+* Then run: `foreman start`
+* Then you should be able to go to http://localhost:5000 and see stats.
 
 If you don't see any stats and your rackup logs contain:
 
