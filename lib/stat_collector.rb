@@ -1,10 +1,10 @@
 require 'sequel'
 require 'json'
-DB = Sequel.connect ENV['DATABASE_URL']
+DB = Sequel.connect(ENV['DATABASE_URL'], :max_connections => 10)
 TARGET_DBS = Hash[ENV.select { |k, v|
   k.match(/^TARGET_/)
 }.map { |k, v|
-  [k, Sequel.connect(v)]
+  [k, Sequel.connect(v, :max_connections => 10)]
 }]
 
 module StatCollector

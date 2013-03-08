@@ -2,7 +2,7 @@ require 'sinatra'
 require 'sequel'
 require 'json'
 require 'haml'
-DB = Sequel.connect ENV['DATABASE_URL']
+DB = Sequel.connect(ENV['DATABASE_URL'], :max_connections => 10)
 
 TARGET_DB_NAMES = ENV.select { |k, v|
   k.match(/^TARGET_/)
