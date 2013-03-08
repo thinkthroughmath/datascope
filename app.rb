@@ -20,8 +20,11 @@ class Datascope < Sinatra::Application
     stop = DateTime.parse params[:stop]
     step = params[:step].to_i
 
-    results = DB[:stats].select(:data).filter(created_at: (start..stop)).all
-    parsed = results.map{|row| JSON.parse(row[:data])}
+    parsed = []
+
+    DB[:stats].select(:data).where(created_at: (start..stop)).each do |row|
+      parsed << JSON.parse(row[:data])
+    end
 
     if database
       parsed = parsed.select{ |row| row["name"] == database }
