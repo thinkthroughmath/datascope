@@ -69,3 +69,9 @@ For example, here is what you should have if you want to see the connections for
     TARGET_0_MASTER=postgres://...
     TARGET_1_ENROLLMENTS=postgres://...
 
+## Setup - remote datascope, remote target db
+
+* Create a heroku app and add a postgres database to it.
+* Set the postgres database as your DATABASE_URL heroku config var.
+* For each target database in your .env file, set a corresponding config var on heroku. Reminder: no committing your .env file anywhere!!!!!
+* Deploy this code to the heroku app.
