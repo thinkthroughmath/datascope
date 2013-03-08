@@ -4,13 +4,9 @@ require 'json'
 require 'haml'
 DB = Sequel.connect ENV['DATABASE_URL']
 
-if ENV['TARGET_DB']
-  TARGET_DB_NAMES = ["master"]
-else
-  TARGET_DB_NAMES = ENV.select { |k, v|
-    k.match(/^HEROKU_POSTGRESQL_/)
-  }.keys
-end
+TARGET_DB_NAMES = ENV.select { |k, v|
+  k.match(/^TARGET_/)
+}.keys
 
 class Datascope < Sinatra::Application
   get '/' do

@@ -55,10 +55,17 @@ This will put all your config vars into .env. There are ways to have heroku conf
 
 UNDER NO CIRCUMSTANCES SHOULD YOU COMMIT THE .env FILE ANYWHERE!!!
 
-We're only going to use HEROKU_POSTGRESQL_* vars; feel free to delete everything else.
-
-Make sure you've kept these values in your .env though (remove TARGET_URL if you want to use the HEROKU_POSTGRESQL_* vars):
+Now go edit .env. Make sure you keep these variables (or add them if you never had them):
 
     RACK_ENV=development
     DATABASE_URL=postgres://localhost/datascope
+
+Delete anything you don't care about. Keep the database urls but change their var names to be TARGET_(\d)_([A-Z]) where (\d) is the order in which you'd like to see the databases displayed, and ([A-Z]) is the name you'd like displayed for this database.
+
+For example, here is what you should have if you want to see the connections for MASTER then ENROLLMENTS:
+
+    RACK_ENV=development
+    DATABASE_URL=postgres://localhost/datascope
+    TARGET_0_MASTER=postgres://...
+    TARGET_1_ENROLLMENTS=postgres://...
 

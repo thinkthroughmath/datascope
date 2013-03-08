@@ -9,7 +9,7 @@ getThing = (database_name, display_name, selector) ->
       return callback(new Error('could not load data')) unless data
       callback(null, data)
 
-  , "#{database_name} #{display_name}")
+  , display_name)
 
 
 
@@ -30,7 +30,10 @@ $ ->
 
   collected_data = []
   $.each(database_names, (i, name) ->
-    collected_data.push(getThing(name, 'conn count', 'connections'))
+    name_parts = name.split('_')
+    order = parseInt(name_parts[1])
+    display_name = "#{name_parts[name_parts.length - 1]} conn count"
+    collected_data[order] = getThing(name, display_name, 'connections')
     return true
   )
 

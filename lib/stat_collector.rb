@@ -1,15 +1,11 @@
 require 'sequel'
 require 'json'
 DB = Sequel.connect ENV['DATABASE_URL']
-if ENV['TARGET_DB']
-  TARGET_DBS = {"master" => Sequel.connect(ENV['TARGET_DB'])}
-else
-  TARGET_DBS = Hash[ENV.select { |k, v|
-    k.match(/^HEROKU_POSTGRESQL_/)
-  }.map { |k, v|
-    [k, Sequel.connect(v)]
-  }]
-end
+TARGET_DBS = Hash[ENV.select { |k, v|
+  k.match(/^TARGET_/)
+}.map { |k, v|
+  [k, Sequel.connect(v)]
+}]
 
 module StatCollector
   extend self
