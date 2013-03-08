@@ -13,10 +13,7 @@ module StatCollector
   def stats(name, target_db)
     {
       name: name,
-      connections: connections(target_db),
-      stat_statements: stat_statements(target_db),
-      cache_hit: cache_hit(target_db),
-      locks: locks(target_db)
+      connections: connections(target_db)
     }
   end
 
@@ -25,7 +22,7 @@ module StatCollector
     TARGET_DBS.each do |name, target_db|
       s = stats(name, target_db)
       DB[:stats] << {data: s.to_json}
-      output << "db=#{s[:name]} connections=#{s[:connections]} stat_statements=#{s[:stat_statements].count} cache_hit=#{s[:cache_hit]}\n"
+      output << "db=#{s[:name]} connections=#{s[:connections]}\n"
     end
     output
   end

@@ -11,12 +11,6 @@ getThing = (database_name, display_name, selector) ->
 
   , display_name)
 
-
-
-$.getJSON('/queries', (data) ->
-  $ -> _.each(data, (it) -> $('#queries').append("<li><em>#{it.calls}c, #{it.total_time}ms</em> #{it.query}</li>"))
-)
-
 $ ->
   d3.select("#cubism").selectAll(".axis")
       .data(["top", "bottom"])
