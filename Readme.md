@@ -71,7 +71,14 @@ For example, here is what you should have if you want to see the connections for
 
 ## Setup - remote datascope, remote target db
 
-* Create a heroku app and add a postgres database to it.
+* Create a heroku app and add a postgres database to it, making sure you request postgres 9.2 since this app uses the json datatype:
+
+    heroku addons:add heroku-postgresql:[dev, crane, whatever] --version=9.2
+
 * Set the postgres database as your DATABASE_URL heroku config var.
+* When the database is available, run `psql -f schema.sql` on it.
 * For each target database in your .env file, set a corresponding config var on heroku. Reminder: no committing your .env file anywhere!!!!!
 * Deploy this code to the heroku app.
+* Scale the worker process:
+
+    heroku ps:scale worker=1
